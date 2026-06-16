@@ -1,4 +1,4 @@
-# Card Game Multiplayer
+# Card Game Multiplayer (15Brush-Game)
 
 Um jogo de cartas multiplayer em tempo real para Android e iOS, desenvolvido com Flutter, Flame e Firebase.
 
@@ -35,8 +35,8 @@ lib/
 
 1. **Clone o repositório**
    ```bash
-   git clone <seu-repo>
-   cd card_game_multiplayer
+   git clone https://github.com/axelfrancop/15Brush-Game.git
+   cd 15Brush-Game
    ```
 
 2. **Instale as dependências**
