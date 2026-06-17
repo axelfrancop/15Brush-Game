@@ -7,10 +7,14 @@ import 'screens/home_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
-  await FirebaseService().signInAnonymously();
+  try {
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+    await FirebaseService().signInAnonymously();
+  } catch (e) {
+    print('Firebase init error (continuing anyway): $e');
+  }
   runApp(const CardGameApp());
 }
 

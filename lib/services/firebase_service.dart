@@ -16,7 +16,6 @@ class FirebaseService {
 
   FirebaseService._internal();
 
-  // Auth Methods
   Future<UserCredential?> signInAnonymously() async {
     try {
       return await _auth.signInAnonymously();
@@ -30,7 +29,6 @@ class FirebaseService {
     return _auth.currentUser?.uid;
   }
 
-  // Game Methods
   Future<String> createGame(String playerName) async {
     try {
       final userId = getCurrentUserId();
@@ -73,11 +71,9 @@ class FirebaseService {
 
       final gameState = GameState.fromJson(gameDoc.data() as Map<String, dynamic>);
 
-      // Check if player already in game
       final playerExists = gameState.players.any((p) => p.id == userId);
       if (playerExists) return;
 
-      // Add new player
       final newPlayer = Player(id: userId, name: playerName, hand: []);
       gameState.players.add(newPlayer);
 
@@ -103,7 +99,6 @@ class FirebaseService {
         throw Exception('Need at least 2 players to start');
       }
 
-      // Initialize game
       final playerIds = gameState.players.map((p) => p.id).toList();
       final playerNames = gameState.players.map((p) => p.name).toList();
 
@@ -141,16 +136,13 @@ class FirebaseService {
 
       final gameState = GameState.fromJson(gameDoc.data() as Map<String, dynamic>);
 
-      // Find the player and their hand card
       final player = gameState.players.firstWhere((p) => p.id == playerId);
       final handCard = player.hand.firstWhere((c) => c.id == handCardId);
 
-      // Find selected table cards
       final selectedTableCards = gameState.tableCards
           .where((c) => selectedTableCardIds.contains(c.id))
           .toList();
 
-      // Make the move
       final updatedGameState = GameService.makeMove(
         gameState,
         playerId,
@@ -162,7 +154,6 @@ class FirebaseService {
         throw Exception('Invalid move');
       }
 
-      // Check if game is over
       if (GameService.isGameOver(updatedGameState)) {
         final finalGameState = GameService.calculateScores(updatedGameState);
         await gameRef.update(finalGameState.toJson());
